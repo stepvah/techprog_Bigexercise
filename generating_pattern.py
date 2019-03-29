@@ -24,21 +24,23 @@ def singleton(class_):
 
 
 class Union:
-    fortune = 0
-    is_alive = False
-    is_active = False  ## is on smth field <=> location != -1
-    healthpoint = 0  ## hp
-    damage = 0
-    energy = 0 ## how much activityes can do
-    location = -1 ## number of field
+    def __init__(self):
+        self.fortune = 0
+        self.is_alive = False
+        self.is_active = False  ## is on smth field <=> location != -1
+        self.healthpoint = 0  ## hp
+        self.damage = 0
+        self.energy = float('inf') ## how much activityes can do
+        self.location = -1 ## number of field
 
 
 
 class Hero(Union):
     def __init__(self):
-        health = float('inf')
+        super().__init__()
+        self.healthpoint = float('inf')
         self.energy = 2
-        is_alive = True
+        self.is_alive = True
 
 
 
@@ -46,12 +48,14 @@ class Hero(Union):
 
 class usual_voin(Union):
     "обычный солдат"
+
     def __init__(self, armor=0, weapon=0, shoes = 0):
-        self.helthpoint = 10 + weapon
+        super().__init__()
+        self.healthpoint = 10 + weapon
         self.fortune = 2 + shoes
         self.damage = 2 + armor
         self.energy = float('inf')
-        is_alive = True
+        self.is_alive = True
 
 
 
@@ -59,22 +63,24 @@ class usual_voin(Union):
 class Horse_voin(Union):
     def __init__(self):
         super().__init__()
-        self.healthpoint -= 1.5
-        self.fortune += 1.5
+        self.healthpoint = 7.5
+        self.fortune += 3.5
+        self.damage = 2
+        self.is_alive = True
 
 
 
 class Centaur(Horse_voin):
     def __init__(self):
         super().__init__()
-        self.healthpoint += 1.5
+        self.healthpoint += 2.5
         self.damage -= 1.5
 
 
 class Horseman(Horse_voin):
     def __init__(self):
         super().__init__()
-        self.healthpoint += 1
+        self.healthpoint += 2
         self.fortune -= 1
 
 
@@ -82,15 +88,19 @@ class Horseman(Horse_voin):
 class Bird(Union):
     def __init__(self):
         super().__init__()
-        self.healthpoint -= 1.5
-        self.fortune += 1.5
+        self.healthpoint = 7.5
+        self.fortune = 3.5
+        self.is_alive = True
+        self.damage = 2
+
+
 
 
 
 class aerobus(Bird):
     def __init__(self):
         super().__init__()
-        self.healthpoint += 1.5
+        self.healthpoint += 2.5
         self.damage -= 1.5
 
 
@@ -116,7 +126,7 @@ class Human(usual_voin):
     def __init__(self):
         super().__init__()
         self.damage += 1
-        self.fortune -= 5
+        self.healthpoint -= 5
 
 
 
@@ -461,6 +471,7 @@ class Game:
                     f = True
 
 
-game = Game()
-game.start()
-game.make_army()
+if (__name__ == "__main__"):
+    game = Game()
+    game.start()
+    game.make_army()
